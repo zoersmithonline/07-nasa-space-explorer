@@ -42,20 +42,23 @@ button {
 }
 
 .gallery {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+  column-width: 300px;
+  column-gap: 20px;
 }
 
 .gallery-item {
+  display: inline-block;
+  width: 100%;
   background: rgba(255,255,255,0.05);
   backdrop-filter: blur(10px);
   border-radius: 12px;
-  padding: 10px;
-  max-width: 300px;
+  padding: 12px;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  vertical-align: top;
   cursor: pointer;
   transition: transform 0.2s;
+  break-inside: avoid;
 }
 
 .gallery-item:hover {
@@ -65,6 +68,7 @@ button {
 .gallery-item img {
   width: 100%;
   border-radius: 8px;
+  display: block;
 }
 
 /* Loader */

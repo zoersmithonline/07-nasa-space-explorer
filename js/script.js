@@ -10,6 +10,23 @@ setupDateInputs(startInput, endInput);
 const API_KEY = 'DEMO_KEY';
 const BASE_URL = 'https://api.nasa.gov/planetary/apod';
 
+function getDaysInRange(startDate, endDate) {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  if (isNaN(start) || isNaN(end) || start > end) return 0;
+  const diff = end - start;
+  return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
+}
+
+function validateDateRange(startDate, endDate) {
+  const days = getDaysInRange(startDate, endDate);
+  if (days < 10) {
+    gallery.innerHTML = '<p>Please select a date range of at least 10 days.</p>';
+    return false;
+  }
+  return true;
+}
+
 async function fetchImages(startDate, endDate) {
   if (!startDate || !endDate) {
     gallery.innerHTML = '<p>Please select a valid start and end date.</p>';
@@ -42,6 +59,11 @@ async function fetchImages(startDate, endDate) {
   loader.classList.add('hidden');
   loadingMessage.classList.add('hidden');
 }
+
+button.addEventListener('click', () => {
+  if (!validateDateRange(startInput.value, endInput.value)) return;
+  fetchImages(startInput.value, endInput.value);
+});
 
 function displayImages(images) {
   images.forEach(item => {
@@ -117,6 +139,3 @@ function openModal(item) {
   document.addEventListener('keydown', handleEscape);
 }
 
-button.addEventListener('click', () => {
-  fetchImages(startInput.value, endInput.value);
-});
